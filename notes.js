@@ -27,7 +27,7 @@ const add = (title, body) => {
 }
 
 const list = () =>{
-  console.log('Listing all notes')
+  return fetchNotes()
 }
 
 const read = title => {
@@ -43,8 +43,6 @@ const remove = title => {
 }
 // OUTPUTS ----------------------------------------------------------------
 const printNote = note => {
-  // Break on this line and use REPL to output note
-  debugger;
   console.log('-------------------')
   console.log(`Title: ${note.title}`)
   console.log(`Body: ${note.body}`)
