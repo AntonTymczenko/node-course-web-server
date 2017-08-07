@@ -9,14 +9,15 @@ const fetchNotes = () => {
   }
 }
 
-const saveNotes = (notes) => {
+const saveNotes = notes => {
   fs.writeFileSync('./notes-data.json', JSON.stringify(notes) + '\n')
 }
+
 
 // CRUD ----------------------------------------------------------------------
 const add = (title, body) => {
   let notes = fetchNotes()
-  let duplicateNotes = notes.filter((note) => note.title === title )
+  let duplicateNotes = notes.filter(note => note.title === title )
   if (duplicateNotes.length === 0 ) {
     let note = {title, body}
     notes.push(note)
@@ -29,19 +30,27 @@ const list = () =>{
   console.log('Listing all notes')
 }
 
-const read = (title) => {
-  console.log('Fetching note', title)
+const read = title => {
+  let notes = fetchNotes()
+  return notes.filter(note => note.title === title)[0]
 }
 
-const remove = (title) => {
+const remove = title => {
   let notes = fetchNotes()
-  let filtered = notes.filter((note) => note.title !== title)
+  let filtered = notes.filter(note => note.title !== title)
   saveNotes(filtered)
   return notes.length !== filtered.length
+}
+// OUTPUTS ----------------------------------------------------------------
+const printNote = note => {
+  console.log('-------------------')
+  console.log(`Title: ${note.title}`)
+  console.log(`Body: ${note.body}`)
 }
 module.exports = {
   add,
   list,
   read,
-  remove
+  remove,
+  printNote
 }
