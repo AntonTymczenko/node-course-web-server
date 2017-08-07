@@ -1,24 +1,27 @@
 console.log('starting app.js')
 
 require('dotenv').config()
-const fs = require('fs')
-const _ = require('lodash')
+const fs    = require('fs'),
+      _     = require('lodash'),
+      yargs = require('yargs')
 
 const notes = require('./notes')
 
-let command = process.argv[2]
+const command = process.argv[2]
+const argv = yargs.argv
 console.log('Command:', command)
-console.log(process.argv)
+// console.log('Process',process.argv)
+// console.log('Yargs:',argv)
 
 
 if (command === 'add') {
-  console.log('Adding new note')
+  notes.add(argv.title, argv.body)
 } else if (command === 'list') {
-  console.log('Listing all notes')
+  notes.list()
 } else if (command === 'read') {
-  console.log('Fetching note')
+  notes.read(argv.title)
 } else if (command === 'remove') {
-  console.log('Removing note')
+  notes.remove(argv.title)
 } else {
   console.log('Command not recognized')
 }
