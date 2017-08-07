@@ -1,23 +1,29 @@
 console.log('starting notes.js')
 
-const fs    = require('fs')
+const fs = require('fs')
 
-const add = (title, body) => {
-  console.log('Adding new note', title, body)
-  let notes = []
+const fetchNotes = () => {
   try {
     let notesString = fs.readFileSync('./notes-data.json')
-    notes = JSON.parse(notesString)
+    return JSON.parse(notesString)
   } catch (e) {
-    console.log('no file')
+    return [] // no such file
   }
+}
+
+const saveNotes = (notes) => {
+  fs.writeFileSync('./notes-data.json', JSON.stringify(notes) + '\n')
+}
+
+// CRUD ----------------------------------------------------------------------
+const add = (title, body) => {
+  let notes = fetchNotes()
   let duplicateNotes = notes.filter((note) => note.title === title )
   if (duplicateNotes.length === 0 ) {
     let note = {title, body}
     notes.push(note)
-    fs.writeFileSync('./notes-data.json', JSON.stringify(notes) + '\n')
-  } else {
-    console.log('already title', title)
+    saveNotes(notes)
+    return note
   }
 }
 
