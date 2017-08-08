@@ -21,7 +21,13 @@ request({
   url,
   json: true
 }, (error, response, body) => {
-  console.log('formatted_address: ', body.results[0].formatted_address)
-  console.log('latitude: ', body.results[0].geometry.location.lat)
-  console.log('longitude: ', body.results[0].geometry.location.lng)
+  if (error) {
+    console.log('Unable to connect to Google location API')
+  } else if (body.status === 'ZERO_RESULTS'){
+    console.log('Unable to find that address')
+  } else if (body.status === 'OK') {
+    console.log('formatted_address: ', body.results[0].formatted_address)
+    console.log('latitude: ', body.results[0].geometry.location.lat)
+    console.log('longitude: ', body.results[0].geometry.location.lng)
+  }
 })
