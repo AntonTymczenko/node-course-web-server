@@ -1,11 +1,30 @@
 const express = require('express'),
-      hbs     = require('hbs')
+      hbs     = require('hbs'),
+      fs      = require('fs')
 
 const app = express()
 
 hbs.registerPartials(__dirname + '/views/partials')
 // app.set('views', __dirname + '/views')
 app.set('view engine', 'hbs')
+
+// adding custom middleware:
+app.use((req, res, next) => {
+  let now = new Date().toString()
+  let log = `${now}: ${req.method} ${req.url}`
+  console.log(log)
+  fs.appendFile('./server.log', log + '\n', (err) => {
+    if (err) {
+      console.log('unable to append to server.log')
+    }
+  })
+  next()
+})
+//maintenance mode:
+app.use((req, res, next) => {
+  res.render('maintenance')
+})
+// static files directory:
 app.use(express.static(__dirname + '/public'))
 
 hbs.registerHelper('getCurrentYear', () => {
@@ -33,6 +52,7 @@ app.get('/bad', (req, res) => {
     errorMessage: 'Error. Can\'t get that page'
   })
 })
+
 
 app.listen(8080, () => {
   console.log('Starting on port 8080')
