@@ -1,0 +1,18 @@
+{
+  "restartable": "rs",
+  "ignore": [
+    ".git",
+    "node_modules/**/node_modules"
+  ],
+  "events" : {
+    "restart" : "echo \"$FILENAME\" | grep -oP \"^$PWD\\K.*\""
+  },
+  "watch": [
+    "*.*"
+  ],
+  "env": {
+    "NODE_ENV": "development",
+    "PORT": 8080
+  },
+  "ext": "js json hbs"
+}
