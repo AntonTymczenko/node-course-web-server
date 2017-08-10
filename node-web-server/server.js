@@ -58,6 +58,11 @@ app.get('/bad', (req, res) => {
   })
 })
 
+app.get('/projects', (req, res) => {
+  res.render('projects', {
+    pageTitle: 'Home Page'
+  })
+})
 
 app.listen(process.env.PORT, () => {
   console.log('Starting on port', process.env.PORT)
