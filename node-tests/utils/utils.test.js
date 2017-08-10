@@ -1,12 +1,31 @@
 const utils = require('./utils'),
     expect  = require('expect')
 
-it('should add two numbers', () => {
-  expect(utils.add(33, 11)).toBe(44).toBeA('number')
-})
+describe('Utils', () => {
+  describe('#add', () => {
+    it('should add two numbers', () => {
+      expect(utils.add(33, 11)).toBe(44).toBeA('number')
+    })
+    it('should async add two numbers', (done) => {
+      utils.asyncAdd(4, 3, (sum) => {
+        expect(sum).toBe(7).toBeA('number')
+        done()
+      })
+    })
+  })
 
-it('should square a number', () => {
-  expect(utils.square(3)).toBe(9).toBeA('number')
+  describe('#square', () => {
+    it('should square a number', () => {
+      expect(utils.square(3)).toBe(9).toBeA('number')
+    })
+
+    it('should async square a number', (done) => {
+      utils.asyncSquare(3, (square) => {
+        expect(square).toBe(9)
+        done()
+      })
+    })
+  })
 })
 
 it('should expect some values', () => {
@@ -30,21 +49,4 @@ it('should have first and last names set', () => {
     .toBeA('object')
     .toInclude({firstName: 'Anton'})
     .toInclude({lastName: 'Tymczenko'})
-})
-
-
-//asyncAdd test:
-it('should async add two numbers', (done) => {
-  utils.asyncAdd(4, 3, (sum) => {
-    expect(sum).toBe(7).toBeA('number')
-    done()
-  })
-})
-
-
-it('should async square a number', (done) => {
-  utils.asyncSquare(3, (square) => {
-    expect(square).toBe(9)
-    done()
-  })
 })
