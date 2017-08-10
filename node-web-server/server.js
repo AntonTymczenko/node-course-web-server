@@ -21,9 +21,12 @@ app.use((req, res, next) => {
   next()
 })
 //maintenance mode:
+/*
 app.use((req, res, next) => {
   res.render('maintenance')
 })
+*/
+
 // static files directory:
 app.use(express.static(__dirname + '/public'))
 
