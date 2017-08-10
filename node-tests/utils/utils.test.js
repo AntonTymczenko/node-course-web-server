@@ -31,3 +31,20 @@ it('should have first and last names set', () => {
     .toInclude({firstName: 'Anton'})
     .toInclude({lastName: 'Tymczenko'})
 })
+
+
+//asyncAdd test:
+it('should async add two numbers', (done) => {
+  utils.asyncAdd(4, 3, (sum) => {
+    expect(sum).toBe(7).toBeA('number')
+    done()
+  })
+})
+
+
+it('should async square a number', (done) => {
+  utils.asyncSquare(3, (square) => {
+    expect(square).toBe(9)
+    done()
+  })
+})
