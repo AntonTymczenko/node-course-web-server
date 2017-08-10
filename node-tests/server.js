@@ -1,2 +1,10 @@
 const utils = require('./utils/utils'),
-      mocha = require('mocha')
+     express = require('express')
+
+const app = express()
+
+app.get('/', () => {
+  res.send('home page')
+})
+
+app.listen(3000)
