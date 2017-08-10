@@ -2,6 +2,8 @@ const express = require('express'),
       hbs     = require('hbs'),
       fs      = require('fs')
 
+require('dotenv').config()
+
 const app = express()
 
 hbs.registerPartials(__dirname + '/views/partials')
@@ -57,6 +59,6 @@ app.get('/bad', (req, res) => {
 })
 
 
-app.listen(8080, () => {
-  console.log('Starting on port 8080')
+app.listen(process.env.PORT, () => {
+  console.log('Starting on port', process.env.PORT)
 })
