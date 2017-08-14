@@ -23,9 +23,9 @@ app.get('/', (req, res) => {
 
 app.get('/todos', (req, res) => {
   Todo.find()
-    .then((docs) => {
+    .then((todos) => {
       res.send({
-        docs,
+        todos,
         code: 'custom status code'
       })
     })
