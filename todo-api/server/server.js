@@ -21,6 +21,20 @@ app.get('/', (req, res) => {
   res.send('I\'m ROOT')
 })
 
+app.get('/todos', (req, res) => {
+  Todo.find()
+    .then((docs) => {
+      res.send({
+        docs,
+        code: 'custom status code'
+      })
+    })
+    .catch((err) => {
+      res.status(400).send('Error')
+      console.log(err)
+    })
+})
+
 app.post('/todos', (req, res) => {
   const {text} = req.body
   let todo = new Todo({text: req.body.text})
