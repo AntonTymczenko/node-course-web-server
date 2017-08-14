@@ -1,6 +1,7 @@
 // dependencies:
 const express = require('express'),
   bodyParser = require('body-parser'),
+  {ObjectID} = require('mongodb'),
 // modules:
   {mongoose} = require('./db/mongoose'),
 // Models:
@@ -21,6 +22,7 @@ app.get('/', (req, res) => {
   res.send('I\'m ROOT')
 })
 
+//index
 app.get('/todos', (req, res) => {
   Todo.find()
     .then((todos) => {
@@ -35,6 +37,26 @@ app.get('/todos', (req, res) => {
     })
 })
 
+//show
+app.get('/todos/:id', (req, res) => {
+  const id = req.params.id
+  if (!ObjectID.isValid(id)) {
+    return res.status(400).send('Bad request')
+  }
+  Todo.findById(id)
+    .then((todo) => {
+      if (!todo) {
+        return res.status(404).send('Not found')
+      }
+      res.send(todo)
+    })
+    .catch((err) => {
+      res.status(500).send('Error')
+      console.log(err)
+    })
+})
+
+//create
 app.post('/todos', (req, res) => {
   const {text} = req.body
   let todo = new Todo({text: req.body.text})
