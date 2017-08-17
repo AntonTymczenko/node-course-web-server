@@ -69,6 +69,24 @@ app.post('/todos', (req, res) => {
     })
 })
 
+// destroy
+app.delete('/todos/:id', (req, res) => {
+  const id = req.params.id
+  if(!ObjectID.isValid(id)) {
+    return res.status(400).send('Bad request')
+  }
+  Todo.findByIdAndRemove(id)
+    .then((doc) => {
+      if(!doc) {
+        return res.status(404).send('Not found')
+      }
+      res.status(200).send(doc)
+    })
+    .catch((err) => {
+      res.status(500).send('Error: can\'t delete Todo')
+    })
+})
+
 app.listen(PORT, () => {
   console.log('Started on port', PORT)
 })
