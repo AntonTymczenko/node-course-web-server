@@ -1,7 +1,9 @@
 const mongoose = require('mongoose')
 
-mongoose.Promise = global.Promise
-mongoose.connect('mongodb://localhost:27017/todo',  {useMongoClient: true})
+require('dotenv').config()
+const {MONGODB_URI} = process.env
+
+mongoose.connect(MONGODB_URI,  {useMongoClient: true})
 
 module.exports = {
   mongoose
