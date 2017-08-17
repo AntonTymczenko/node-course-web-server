@@ -48,7 +48,7 @@ app.get('/todos/:id', (req, res) => {
       if (!todo) {
         return res.status(404).send('Not found')
       }
-      res.send(todo)
+      res.status(200).send({todo})
     })
     .catch((err) => {
       res.status(500).send('Error')
