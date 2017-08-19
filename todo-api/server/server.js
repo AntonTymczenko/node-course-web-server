@@ -3,6 +3,7 @@ const express = require('express'),
   bodyParser = require('body-parser'),
   {ObjectID} = require('mongodb'),
   _ = require('lodash'),
+  jwt = require('jsonwebtoken'),
 // modules:
   {mongoose} = require('./db/mongoose'),
 // Models:
@@ -132,9 +133,15 @@ app.delete('/todos/:id', (req, res) => {
 app.post('/users', (req, res) => {
   let body = _.pick(req.body, ['email', 'password']),
     user = new User(body)
+
+  // User.findByToken
+
   user.save()
-    .then((user) => {
-      res.status(200).send(user)
+    .then(() => {
+      return user.generateAuthToken()
+    })
+    .then((token) => {
+      res.header('x-auth', token).send(user)
     })
     .catch((err) => {
       res.status(400).send(err)
