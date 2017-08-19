@@ -76,11 +76,11 @@ app.delete('/todos/:id', (req, res) => {
     return res.status(400).send('Bad request')
   }
   Todo.findByIdAndRemove(id)
-    .then((doc) => {
-      if(!doc) {
+    .then((todo) => {
+      if(!todo) {
         return res.status(404).send('Not found')
       }
-      res.status(200).send(doc)
+      res.status(200).send({todo})
     })
     .catch((err) => {
       res.status(500).send('Error: can\'t delete Todo')
