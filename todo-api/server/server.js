@@ -2,6 +2,7 @@
 const express = require('express'),
   bodyParser = require('body-parser'),
   {ObjectID} = require('mongodb'),
+  _ = require('lodash'),
 // modules:
   {mongoose} = require('./db/mongoose'),
 // Models:
@@ -37,6 +38,24 @@ app.get('/todos', (req, res) => {
     })
 })
 
+// new
+app.get('/todo/new', (req, res) => {
+  res.send('NEW RESTful route')
+})
+
+//create
+app.post('/todos', (req, res) => {
+  const {text} = req.body
+  let todo = new Todo({text: req.body.text})
+  todo.save()
+    .then((doc) => {
+      res.status(200).send(doc)
+    })
+    .catch((err) => {
+      res.status(400).send(err)
+    })
+})
+
 //show
 app.get('/todos/:id', (req, res) => {
   const id = req.params.id
@@ -56,16 +75,37 @@ app.get('/todos/:id', (req, res) => {
     })
 })
 
-//create
-app.post('/todos', (req, res) => {
-  const {text} = req.body
-  let todo = new Todo({text: req.body.text})
-  todo.save()
-    .then((doc) => {
-      res.status(200).send(doc)
+// edit
+app.get('/todos/:id/edit', (req, res) => {
+  res.send('EDIT RESTful route')
+})
+
+
+// update
+app.patch('/todos/:id', (req, res)=>{
+  const id = req.params.id
+  const body = _.pick(req.body, ['text', 'completed'])
+
+  if (!ObjectID.isValid(id)) {
+    return res.status(400).send()
+  }
+
+  if (_.isBoolean(body.completed) && body.completed) {
+    body.completedAt = new Date().getTime()
+  } else {
+    body.completed = false
+    body.completedAt = null
+  }
+
+  Todo.findByIdAndUpdate(id, {$set: body}, {new: true})
+    .then((todo) => {
+      if (!todo) {
+        return res.status(404).send()
+      }
+      res.status(200).send({todo})
     })
     .catch((err) => {
-      res.status(400).send(err)
+      res.status(500).send()
     })
 })
 
