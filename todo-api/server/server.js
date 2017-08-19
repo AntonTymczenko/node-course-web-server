@@ -127,6 +127,21 @@ app.delete('/todos/:id', (req, res) => {
     })
 })
 
+// users routes ------------------------------------------------------
+//create
+app.post('/users', (req, res) => {
+  let body = _.pick(req.body, ['email', 'password']),
+    user = new User(body)
+  user.save()
+    .then((user) => {
+      res.status(200).send(user)
+    })
+    .catch((err) => {
+      res.status(400).send(err)
+    })
+})
+
+
 app.listen(PORT, () => {
   console.log(`Started on port ${PORT} in ${NODE_ENV} mode`)
 })
