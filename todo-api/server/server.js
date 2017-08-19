@@ -10,7 +10,7 @@ const express = require('express'),
   {User} = require('./models/user')
 
 require('dotenv').config()
-const {PORT} = process.env
+const {PORT, NODE_ENV} = process.env
 
 const app = express()
 
@@ -128,7 +128,7 @@ app.delete('/todos/:id', (req, res) => {
 })
 
 app.listen(PORT, () => {
-  console.log('Started on port', PORT)
+  console.log(`Started on port ${PORT} in ${NODE_ENV} mode`)
 })
 
 module.exports = {app}
