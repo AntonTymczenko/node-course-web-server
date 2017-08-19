@@ -8,7 +8,9 @@ const express = require('express'),
   {mongoose} = require('./db/mongoose'),
 // Models:
   {Todo} = require('./models/todo'),
-  {User} = require('./models/user')
+  {User} = require('./models/user'),
+//middleware
+  {authenticate} = require('./middleware/authenticate')
 
 require('dotenv').config()
 const {PORT, NODE_ENV} = process.env
@@ -134,7 +136,6 @@ app.post('/users', (req, res) => {
   let body = _.pick(req.body, ['email', 'password']),
     user = new User(body)
 
-  // User.findByToken
 
   user.save()
     .then(() => {
@@ -148,6 +149,11 @@ app.post('/users', (req, res) => {
     })
 })
 
+
+//
+app.get('/users/me', authenticate, (req, res) => {
+  res.send(req.user)
+})
 
 app.listen(PORT, () => {
   console.log(`Started on port ${PORT} in ${NODE_ENV} mode`)
