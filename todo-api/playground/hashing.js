@@ -29,6 +29,7 @@ if (resultHash === token.hash) {
 }
 */
 
+/*
 const jwt = require('jsonwebtoken')
 const secret = '123abc'
 
@@ -41,3 +42,22 @@ console.log(token)
 
 let decoded = jwt.verify(token, secret)
 console.log(`decoded ${JSON.stringify(decoded)}`)
+
+*/
+
+
+const bcrypt = require('bcryptjs')
+const password = '1234abcd'
+
+// bcrypt.genSalt(10, (err, salt) =>{
+//   bcrypt.hash(password, salt, (err, hash) => {
+//     console.log(hash)
+//   })
+// })
+
+
+let hashedPassword = '$2a$10$o7X1CL7IvH/qapIYgZuJs.RIOvHuNO.uxdhCa.ORW0GR2yMWdS1lO'
+
+bcrypt.compare(password, hashedPassword, (err, res) => {
+  console.log(res)
+})
